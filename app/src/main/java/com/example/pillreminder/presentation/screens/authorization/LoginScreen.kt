@@ -28,12 +28,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.example.pillreminder.R
+import com.example.pillreminder.presentation.components.OuterInput
 import com.example.pillreminder.ui.theme.CustomColors
 import com.example.pillreminder.ui.theme.PillReminderTheme
+import com.example.pillreminder.ui.theme.Typography
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -44,89 +46,40 @@ fun LoginScreen() {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    Scaffold {
+    Scaffold { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(color = MaterialTheme.colorScheme.background)
-                .padding(top = it.calculateTopPadding())
+                .padding(top = paddingValues.calculateTopPadding())
                 .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.SpaceBetween,
         ) {
-            Column {
+            Column(modifier = Modifier.padding(top = 57.dp)) {
                 Text(
-                    modifier = Modifier
-                        .padding(top = 57.dp),
-                    text = "Welcome back!",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
+                    text = stringResource(R.string.welcome_back),
+                    style = Typography.current.medium16,
                     color = CustomColors.current.lightGray,
                 )
                 Text(
-                    text = "Login to your Account",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
+                    text = stringResource(R.string.auth_title),
+                    style = Typography.current.bold24,
                     color = CustomColors.current.mediumBlack
                 )
-
-                // Email input
-                Text(
-                    text = "Email",
-                    modifier = Modifier
-                        .padding(top = 37.dp)
-                        .padding(bottom = 12.dp),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = CustomColors.current.mediumBlack
-                )
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(51.dp)
-                        .border(
-                            width = 1.dp,
-                            color = CustomColors.current.lightGray,
-                            shape = RoundedCornerShape(12.dp)
-                        ),
-                    shape = RoundedCornerShape(12.dp),
-                    placeholder = { Text(text = "Enter your Email")},
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = MaterialTheme.colorScheme.background,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        placeholderColor = CustomColors.current.lightGray,
-                    ),
+                OuterInput(
+                    titleModifier = Modifier.padding(top = 37.dp),
+                    title = stringResource(R.string.email),
+                    placeholder = stringResource(R.string.enter_your_email),
                     value = email,
                     onValueChange = { email = it }
                 )
-                // Password input
-                Text(
-                    text = "Password",
-                    modifier = Modifier
-                        .padding(top = 18.dp)
-                        .padding(bottom = 12.dp),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = CustomColors.current.mediumBlack
-                )
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(51.dp)
-                        .border(
-                            width = 1.dp,
-                            color = CustomColors.current.lightGray,
-                            shape = RoundedCornerShape(12.dp)
-                        ),
-                    shape = RoundedCornerShape(12.dp),
-                    placeholder = { Text(text = "Enter your Password")},
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = MaterialTheme.colorScheme.background,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        placeholderColor = CustomColors.current.lightGray,
-                    ),
+                OuterInput(
+                    titleModifier = Modifier.padding(top = 18.dp),
+                    title = stringResource(R.string.password),
+                    placeholder = stringResource(R.string.enter_your_password),
                     value = password,
-                    onValueChange = { password = it }
-                )
+                    onValueChange = { password = it })
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -144,9 +97,9 @@ fun LoginScreen() {
                                 checkedColor = MaterialTheme.colorScheme.primary,
                             )
                         )
-                        Text(text = "Remember me", color = CustomColors.current.mediumBlack)
+                        Text(text = stringResource(R.string.remember_me), color = CustomColors.current.mediumBlack)
                     }
-                    Text(text = "Forgot Password", color = MaterialTheme.colorScheme.primary)
+                    Text(text = stringResource(R.string.forgot_password), color = MaterialTheme.colorScheme.primary)
                 }
                 Button(
                     modifier = Modifier
@@ -155,9 +108,8 @@ fun LoginScreen() {
                     shape = RoundedCornerShape(12.dp),
                     content = {
                         Text(
-                            text = "Log In",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.SemiBold,
+                            text = stringResource(R.string.log_in),
+                            style = Typography.current.semiBold14,
                             color = Color.White
                         ) },
                     onClick = { /*TODO*/ }
@@ -170,15 +122,13 @@ fun LoginScreen() {
                 horizontalArrangement = Arrangement.Center,
             ) {
                 Text(
-                    text = "Don't have an account? ",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
+                    text = stringResource(R.string.don_t_have_an_account),
+                    style = Typography.current.medium16,
                     color = CustomColors.current.mediumBlack
                 )
                 Text(
-                    text = "Register",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold,
+                    text = stringResource(R.string.register),
+                    style = Typography.current.semiBold16,
                     color = MaterialTheme.colorScheme.primary
                 )
             }

@@ -42,10 +42,12 @@ fun PillReminderTheme(
         if (darkTheme) DarkCustomColorsPalette
         else LightCustomColorsPalette
 
-    CompositionLocalProvider(CustomColors provides customColorsPalette) {
+    CompositionLocalProvider(
+        Typography provides customReplacementTypography,
+        CustomColors provides customColorsPalette
+    ) {
         MaterialTheme(
             colorScheme = colorScheme,
-            typography = Typography,
             content = content
         )
     }
