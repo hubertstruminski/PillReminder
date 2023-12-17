@@ -16,4 +16,4 @@ val LightCustomColorsPalette = CustomColorsPalette(
 )
 val DarkCustomColorsPalette = CustomColorsPalette()
 
-val LocalCustomColorsPalette = staticCompositionLocalOf { CustomColorsPalette() }
+val CustomColors = staticCompositionLocalOf { CustomColorsPalette() }

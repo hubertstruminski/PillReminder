@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
@@ -20,7 +19,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,13 +27,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.pillreminder.ui.theme.LocalCustomColorsPalette
+import com.example.pillreminder.ui.theme.CustomColors
 import com.example.pillreminder.ui.theme.PillReminderTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -63,13 +60,13 @@ fun LoginScreen() {
                     text = "Welcome back!",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
-                    color = LocalCustomColorsPalette.current.lightGray,
+                    color = CustomColors.current.lightGray,
                 )
                 Text(
                     text = "Login to your Account",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LocalCustomColorsPalette.current.mediumBlack
+                    color = CustomColors.current.mediumBlack
                 )
 
                 // Email input
@@ -80,7 +77,7 @@ fun LoginScreen() {
                         .padding(bottom = 12.dp),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
-                    color = LocalCustomColorsPalette.current.mediumBlack
+                    color = CustomColors.current.mediumBlack
                 )
                 TextField(
                     modifier = Modifier
@@ -88,7 +85,7 @@ fun LoginScreen() {
                         .height(51.dp)
                         .border(
                             width = 1.dp,
-                            color = LocalCustomColorsPalette.current.lightGray,
+                            color = CustomColors.current.lightGray,
                             shape = RoundedCornerShape(12.dp)
                         ),
                     shape = RoundedCornerShape(12.dp),
@@ -96,7 +93,7 @@ fun LoginScreen() {
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = MaterialTheme.colorScheme.background,
                         unfocusedIndicatorColor = Color.Transparent,
-                        placeholderColor = LocalCustomColorsPalette.current.lightGray,
+                        placeholderColor = CustomColors.current.lightGray,
                     ),
                     value = email,
                     onValueChange = { email = it }
@@ -109,7 +106,7 @@ fun LoginScreen() {
                         .padding(bottom = 12.dp),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
-                    color = LocalCustomColorsPalette.current.mediumBlack
+                    color = CustomColors.current.mediumBlack
                 )
                 TextField(
                     modifier = Modifier
@@ -117,7 +114,7 @@ fun LoginScreen() {
                         .height(51.dp)
                         .border(
                             width = 1.dp,
-                            color = LocalCustomColorsPalette.current.lightGray,
+                            color = CustomColors.current.lightGray,
                             shape = RoundedCornerShape(12.dp)
                         ),
                     shape = RoundedCornerShape(12.dp),
@@ -125,7 +122,7 @@ fun LoginScreen() {
                     colors = TextFieldDefaults.textFieldColors(
                         containerColor = MaterialTheme.colorScheme.background,
                         unfocusedIndicatorColor = Color.Transparent,
-                        placeholderColor = LocalCustomColorsPalette.current.lightGray,
+                        placeholderColor = CustomColors.current.lightGray,
                     ),
                     value = password,
                     onValueChange = { password = it }
@@ -139,13 +136,15 @@ fun LoginScreen() {
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Checkbox(
+                            modifier = Modifier
+                                .border(shape = RoundedCornerShape(4.dp), width = 0.dp, color = Color.Transparent),
                             checked = true,
                             onCheckedChange = {},
                             colors = CheckboxDefaults.colors(
-                                checkedColor = Color.Green,
+                                checkedColor = MaterialTheme.colorScheme.primary,
                             )
                         )
-                        Text(text = "Remember me", color = LocalCustomColorsPalette.current.mediumBlack)
+                        Text(text = "Remember me", color = CustomColors.current.mediumBlack)
                     }
                     Text(text = "Forgot Password", color = MaterialTheme.colorScheme.primary)
                 }
@@ -156,7 +155,7 @@ fun LoginScreen() {
                     shape = RoundedCornerShape(12.dp),
                     content = {
                         Text(
-                            text = "Send your OTP",
+                            text = "Log In",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.SemiBold,
                             color = Color.White
@@ -174,7 +173,7 @@ fun LoginScreen() {
                     text = "Don't have an account? ",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
-                    color = LocalCustomColorsPalette.current.mediumBlack
+                    color = CustomColors.current.mediumBlack
                 )
                 Text(
                     text = "Register",
