@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.pillreminder.R
 import com.example.pillreminder.presentation.components.OuterInput
+import com.example.pillreminder.presentation.components.TextCheckbox
 import com.example.pillreminder.ui.theme.CustomColors
 import com.example.pillreminder.ui.theme.PillReminderTheme
 import com.example.pillreminder.ui.theme.Typography
@@ -45,6 +46,8 @@ fun LoginScreen() {
     systemUiController.setStatusBarColor(color = MaterialTheme.colorScheme.background)
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    val isRememberMeChecked = remember { mutableStateOf(false) }
 
     Scaffold { paddingValues ->
         Column(
@@ -78,29 +81,15 @@ fun LoginScreen() {
                     title = stringResource(R.string.password),
                     placeholder = stringResource(R.string.enter_your_password),
                     value = password,
-                    onValueChange = { password = it })
-
-                Row(
-                    modifier = Modifier
+                    onValueChange = { password = it }
+                )
+                TextCheckbox(
+                    rowModifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 24.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Checkbox(
-                            modifier = Modifier
-                                .border(shape = RoundedCornerShape(4.dp), width = 0.dp, color = Color.Transparent),
-                            checked = true,
-                            onCheckedChange = {},
-                            colors = CheckboxDefaults.colors(
-                                checkedColor = MaterialTheme.colorScheme.primary,
-                            )
-                        )
-                        Text(text = stringResource(R.string.remember_me), color = CustomColors.current.mediumBlack)
-                    }
-                    Text(text = stringResource(R.string.forgot_password), color = MaterialTheme.colorScheme.primary)
-                }
+                    title = stringResource(R.string.remember_me),
+                    isChecked = isRememberMeChecked
+                )
                 Button(
                     modifier = Modifier
                         .fillMaxWidth()
