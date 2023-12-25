@@ -5,7 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.example.pillreminder.presentation.screens.authorization.LoginScreen
+import androidx.navigation.compose.rememberNavController
+import com.example.pillreminder.navigation.SetupNavigation
 import com.example.pillreminder.presentation.screens.splash.SplashViewModel
 import com.example.pillreminder.ui.theme.PillReminderTheme
 
@@ -17,7 +18,8 @@ class MainActivity : ComponentActivity() {
         installSplashScreen().setKeepOnScreenCondition { viewModel.isLoading.value }
         setContent {
             PillReminderTheme {
-                 LoginScreen()
+                val navController = rememberNavController()
+                SetupNavigation(navController = navController)
             }
         }
     }

@@ -34,7 +34,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navigateToRegister: () -> Unit) {
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(color = MaterialTheme.colorScheme.background)
     var email by remember { mutableStateOf("") }
@@ -104,7 +104,7 @@ fun LoginScreen() {
                 )
                 Text(
                     modifier = Modifier
-                        .clickable {  },
+                        .clickable { navigateToRegister.invoke() },
                     text = stringResource(R.string.register),
                     style = Typography.current.semiBold16,
                     color = MaterialTheme.colorScheme.primary
@@ -118,6 +118,6 @@ fun LoginScreen() {
 @Preview
 fun LoginScreenPreview() {
     PillReminderTheme {
-        LoginScreen()
+        LoginScreen(navigateToRegister = {})
     }
 }
