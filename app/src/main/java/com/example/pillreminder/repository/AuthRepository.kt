@@ -9,12 +9,16 @@ import javax.inject.Inject
 class AuthRepository @Inject constructor(
     private val authApi: AuthApi
 ) {
-    suspend fun logIn(email: String, password: String): AuthResponse {
-        val response = try {
-            authApi.logIn(AuthRequest(email, password))
+    suspend fun logIn(email: String, password: String): AuthResponse? {
+        try {
+            val response = authApi.logIn(AuthRequest(email, password))
+            if(response.isSuccessful) {
+                return response.body()
+            }
         } catch(e: Exception) {
-            Log.d("AuthAPI Error: ", e.message.toString())
+            Log.d("API logIn Error: ", e.message.toString())
+            return null
         }
-        return response as AuthResponse
+        return null
     }
 }

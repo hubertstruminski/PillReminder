@@ -11,13 +11,4 @@ class GlobalPreferences @Inject constructor(private val context: Context) {
     var token: String?
         get() = preferences.getString(PreferenceKeys.TOKEN, null)
         set(value) = preferences.edit().putString(PreferenceKeys.TOKEN, value).apply()
-
-//    init {
-//        preferences = initPreferences()
-//    }
-
-//    private fun initPreferences(): SharedPreferences {
-//        Log.d("CHECK", "initPreferences: ${context.toString()}")
-//        return (context as MainActivity).getPreferences(Context.MODE_PRIVATE)
-//    }
 }
