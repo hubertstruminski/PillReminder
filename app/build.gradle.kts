@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -74,4 +76,15 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.1")
 
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
+
+    // Dagger - Hilt
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+
+    // Retrofit 2
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+    // JSON Converter
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 }

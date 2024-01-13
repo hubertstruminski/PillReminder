@@ -1,5 +1,6 @@
 package com.example.pillreminder.presentation.screens.authorization
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -8,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,16 +31,22 @@ import com.example.pillreminder.presentation.components.TextCheckbox
 import com.example.pillreminder.ui.theme.CustomColors
 import com.example.pillreminder.ui.theme.PillReminderTheme
 import com.example.pillreminder.ui.theme.Typography
+import com.example.pillreminder.util.isValidEmail
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(navigateToRegister: () -> Unit) {
+fun LoginScreen(
+    navigateToRegister: () -> Unit,
+    logIn: (email: String, password: String) -> Unit
+) {
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(color = MaterialTheme.colorScheme.background)
+
+    val context = LocalContext.current
+
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-
     val isRememberMeChecked = remember { mutableStateOf(false) }
 
     Scaffold { paddingValues ->
@@ -88,7 +95,16 @@ fun LoginScreen(navigateToRegister: () -> Unit) {
                         .fillMaxWidth()
                         .height(54.dp),
                     title = stringResource(R.string.log_in),
-                    onClick = {}
+                    onClick = {
+                        if(email.isNotEmpty() && password.isNotEmpty()) {
+                            if(isValidEmail(email)) {
+                                logIn(email, password)
+                            } else {
+                                Toast.makeText(context, "Email is incorrect!", Toast.LENGTH_LONG)
+                                    .show()
+                            }
+                        }
+                    }
                 )
             }
             Row(
@@ -118,6 +134,6 @@ fun LoginScreen(navigateToRegister: () -> Unit) {
 @Preview
 fun LoginScreenPreview() {
     PillReminderTheme {
-        LoginScreen(navigateToRegister = {})
+        LoginScreen(navigateToRegister = {}, logIn = { email, password -> })
     }
 }

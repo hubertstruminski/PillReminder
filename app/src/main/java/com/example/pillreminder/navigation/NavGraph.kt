@@ -1,11 +1,13 @@
 package com.example.pillreminder.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.pillreminder.presentation.screens.authorization.LoginScreen
+import com.example.pillreminder.presentation.screens.authorization.LoginViewModel
 import com.example.pillreminder.presentation.screens.authorization.RegisterScreen
 import com.example.pillreminder.util.Screen
 
@@ -32,7 +34,12 @@ fun NavGraphBuilder.loginScreen(
     navigateToRegister: () -> Unit
 ) {
     composable(route = Screen.Login.route) {
-        LoginScreen(navigateToRegister = navigateToRegister)
+        val viewModel: LoginViewModel = hiltViewModel()
+
+        LoginScreen(
+            navigateToRegister = navigateToRegister,
+            logIn = { email, password -> viewModel.logIn(email, password) }
+        )
     }
 }
 
