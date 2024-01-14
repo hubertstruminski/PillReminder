@@ -9,19 +9,30 @@ import androidx.navigation.compose.composable
 import com.example.pillreminder.presentation.screens.authorization.LoginScreen
 import com.example.pillreminder.presentation.screens.authorization.LoginViewModel
 import com.example.pillreminder.presentation.screens.authorization.RegisterScreen
+import com.example.pillreminder.presentation.screens.home.HomeScreen
 import com.example.pillreminder.util.Screen
 
 @Composable
 fun SetupNavigation(
     navController: NavHostController,
+    startDestination: () -> String,
 ) {
-    NavHost(startDestination = Screen.Login.route, navController = navController) {
+    NavHost(startDestination = startDestination(), navController = navController) {
         loginScreen(
             navigateToRegister = {
                 navController.navigate(Screen.Register.route)
+            },
+            navigateToHome = {
+                navController.navigate(Screen.Home.route)
             }
         )
         registerScreen(
+            navigateToLogin = {
+                navController.popBackStack()
+                navController.navigate(Screen.Login.route)
+            }
+        )
+        homeScreen(
             navigateToLogin = {
                 navController.popBackStack()
                 navController.navigate(Screen.Login.route)
@@ -31,7 +42,8 @@ fun SetupNavigation(
 }
 
 fun NavGraphBuilder.loginScreen(
-    navigateToRegister: () -> Unit
+    navigateToRegister: () -> Unit,
+    navigateToHome: () -> Unit
 ) {
     composable(route = Screen.Login.route) {
         val viewModel: LoginViewModel = hiltViewModel()
@@ -39,7 +51,9 @@ fun NavGraphBuilder.loginScreen(
         LoginScreen(
             navigateToRegister = navigateToRegister,
             logIn = { email, password -> viewModel.logIn(email, password) },
-            isLoading = viewModel.isLoading
+            isLoading = viewModel.isLoading,
+            navigateToHome = navigateToHome,
+            canLogin = viewModel.canLogin
         )
     }
 }
@@ -49,5 +63,17 @@ fun NavGraphBuilder.registerScreen(
 ) {
     composable(route = Screen.Register.route) {
         RegisterScreen(navigateToLogin = navigateToLogin)
+    }
+}
+
+fun NavGraphBuilder.homeScreen(navigateToLogin: () -> Unit) {
+    composable(route = Screen.Home.route) {
+        val loginViewModel: LoginViewModel = hiltViewModel()
+        HomeScreen(
+            logout = {
+                loginViewModel.logout()
+                navigateToLogin()
+            }
+        )
     }
 }

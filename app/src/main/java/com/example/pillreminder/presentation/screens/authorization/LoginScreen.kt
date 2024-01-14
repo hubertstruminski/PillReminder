@@ -15,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,6 +43,8 @@ fun LoginScreen(
     navigateToRegister: () -> Unit,
     logIn: (email: String, password: String) -> Unit,
     isLoading: Boolean,
+    navigateToHome: () -> Unit,
+    canLogin: Boolean,
 ) {
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(color = MaterialTheme.colorScheme.background)
@@ -51,6 +54,10 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val isRememberMeChecked = remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = canLogin) {
+        if(canLogin) { navigateToHome() }
+    }
 
     Scaffold { paddingValues ->
         Column(
@@ -143,7 +150,9 @@ fun LoginScreenPreview() {
         LoginScreen(
             navigateToRegister = {},
             logIn = { email, password -> },
-            isLoading = false
+            isLoading = false,
+            navigateToHome = {},
+            canLogin = false
         )
     }
 }

@@ -18,17 +18,23 @@ class LoginViewModel @Inject constructor(
     private val preferences: GlobalPreferences,
 ): ViewModel() {
     var isLoading by mutableStateOf(false)
+    var canLogin by mutableStateOf(false)
 
     fun logIn(email: String, password: String) {
         isLoading = true
         viewModelScope.launch {
             val response = authRepository.logIn(email, password)
+            Log.d("TAG", "logIn: res: " + response?.token)
             if(response?.token?.isNotEmpty() == true) {
                 preferences.token = response.token
                 isLoading = false
-
+                canLogin = true
                 Log.d("TOKEN: ", preferences.token!!)
             }
         }
+    }
+
+    fun logout() {
+        preferences.token = null
     }
 }
