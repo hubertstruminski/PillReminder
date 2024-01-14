@@ -53,7 +53,9 @@ fun NavGraphBuilder.loginScreen(
             logIn = { email, password -> viewModel.logIn(email, password) },
             isLoading = viewModel.isLoading,
             navigateToHome = navigateToHome,
-            canLogin = viewModel.canLogin
+            canLogin = viewModel.canLogin,
+            onRememberMeChange = { viewModel.rememberUserLogin(it) },
+            initRememberMeCheckbox = { viewModel.initRememberMeCheckbox(it) }
         )
     }
 }
@@ -62,7 +64,12 @@ fun NavGraphBuilder.registerScreen(
     navigateToLogin: () -> Unit
 ) {
     composable(route = Screen.Register.route) {
-        RegisterScreen(navigateToLogin = navigateToLogin)
+        val loginViewModel: LoginViewModel = hiltViewModel()
+
+        RegisterScreen(
+            navigateToLogin = navigateToLogin,
+            onRememberMeChange = { loginViewModel.rememberUserLogin(it) }
+        )
     }
 }
 

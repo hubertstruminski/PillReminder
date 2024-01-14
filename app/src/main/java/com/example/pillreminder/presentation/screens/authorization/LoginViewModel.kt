@@ -1,6 +1,6 @@
 package com.example.pillreminder.presentation.screens.authorization
 
-import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -24,17 +24,24 @@ class LoginViewModel @Inject constructor(
         isLoading = true
         viewModelScope.launch {
             val response = authRepository.logIn(email, password)
-            Log.d("TAG", "logIn: res: " + response?.token)
             if(response?.token?.isNotEmpty() == true) {
                 preferences.token = response.token
                 isLoading = false
                 canLogin = true
-                Log.d("TOKEN: ", preferences.token!!)
             }
         }
     }
 
     fun logout() {
         preferences.token = null
+        preferences.rememberUserLogin = false
+    }
+
+    fun rememberUserLogin(isRememberMeEnabled: Boolean) {
+        preferences.rememberUserLogin = isRememberMeEnabled
+    }
+
+    fun initRememberMeCheckbox(isRememberMeEnabled: MutableState<Boolean>) {
+        isRememberMeEnabled.value = preferences.rememberUserLogin
     }
 }

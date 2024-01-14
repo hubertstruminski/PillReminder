@@ -2,7 +2,6 @@ package com.example.pillreminder
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -27,16 +26,24 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         globalPreferences.preferences = getPreferences(Context.MODE_PRIVATE)
-        Log.d("TAG", "onCreate: " + globalPreferences.token)
         installSplashScreen().setKeepOnScreenCondition { viewModel.isLoading.value }
         setContent {
             PillReminderTheme {
                 val navController = rememberNavController()
                 SetupNavigation(
                     navController = navController,
-                    startDestination = { if(globalPreferences.token?.isNotEmpty() == true) Screen.Home.route else Screen.Login.route }
+                    startDestination = {
+                        setStartDestination(
+                            globalPreferences.token,
+                            globalPreferences.rememberUserLogin
+                        )
+                    }
                 )
             }
         }
     }
+}
+
+fun setStartDestination(token: String?, rememberMe: Boolean): String {
+    return if(token != null && rememberMe) Screen.Home.route else Screen.Login.route
 }

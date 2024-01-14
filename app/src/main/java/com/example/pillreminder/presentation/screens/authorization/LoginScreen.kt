@@ -16,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,6 +46,8 @@ fun LoginScreen(
     isLoading: Boolean,
     navigateToHome: () -> Unit,
     canLogin: Boolean,
+    onRememberMeChange: (Boolean) -> Unit,
+    initRememberMeCheckbox: (MutableState<Boolean>) -> Unit
 ) {
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(color = MaterialTheme.colorScheme.background)
@@ -54,6 +57,10 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val isRememberMeChecked = remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = true) {
+        initRememberMeCheckbox(isRememberMeChecked)
+    }
 
     LaunchedEffect(key1 = canLogin) {
         if(canLogin) { navigateToHome() }
@@ -101,7 +108,8 @@ fun LoginScreen(
                         .fillMaxWidth()
                         .padding(vertical = 24.dp),
                     title = stringResource(R.string.remember_me),
-                    isChecked = isRememberMeChecked
+                    isChecked = isRememberMeChecked,
+                    onCallback = onRememberMeChange
                 )
                 FilledButton(
                     modifier = Modifier
@@ -152,7 +160,9 @@ fun LoginScreenPreview() {
             logIn = { email, password -> },
             isLoading = false,
             navigateToHome = {},
-            canLogin = false
+            canLogin = false,
+            onRememberMeChange = {},
+            initRememberMeCheckbox = {}
         )
     }
 }

@@ -24,7 +24,8 @@ fun TextCheckbox(
     rowModifier: Modifier = Modifier,
     checkboxModifier: Modifier = Modifier,
     title: String,
-    isChecked: MutableState<Boolean>
+    isChecked: MutableState<Boolean>,
+    onCallback: (Boolean) -> Unit
 ) {
     Row(
         modifier = rowModifier,
@@ -34,7 +35,10 @@ fun TextCheckbox(
             modifier = checkboxModifier
                 .border(shape = RoundedCornerShape(4.dp), width = 0.dp, color = Color.Transparent),
             checked = isChecked.value,
-            onCheckedChange = { isChecked.value = !isChecked.value },
+            onCheckedChange = {
+                isChecked.value = !isChecked.value
+                onCallback(isChecked.value)
+                              },
             colors = CheckboxDefaults.colors(
                 checkedColor = MaterialTheme.colorScheme.primary,
                 uncheckedColor = CustomColors.current.lightGray,
@@ -50,6 +54,6 @@ fun TextCheckbox(
 fun TextCheckboxPreview() {
     val isChecked = mutableStateOf(true)
     PillReminderTheme {
-        TextCheckbox(isChecked = isChecked, title = "Remember me")
+        TextCheckbox(isChecked = isChecked, title = "Remember me", onCallback = {})
     }
 }

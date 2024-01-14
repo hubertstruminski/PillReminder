@@ -31,7 +31,10 @@ import com.example.pillreminder.ui.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreen(navigateToLogin: () -> Unit) {
+fun RegisterScreen(
+    navigateToLogin: () -> Unit,
+    onRememberMeChange: (Boolean) -> Unit
+) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -90,7 +93,8 @@ fun RegisterScreen(navigateToLogin: () -> Unit) {
                         .fillMaxWidth()
                         .padding(vertical = 24.dp),
                     title = stringResource(R.string.remember_me),
-                    isChecked = isRememberMeChecked
+                    isChecked = isRememberMeChecked,
+                    onCallback = onRememberMeChange
                 )
                 FilledButton(
                     modifier = Modifier
@@ -108,6 +112,6 @@ fun RegisterScreen(navigateToLogin: () -> Unit) {
 @Composable
 fun RegisterScreenPreview() {
     PillReminderTheme {
-        RegisterScreen(navigateToLogin = {})
+        RegisterScreen(navigateToLogin = {}, onRememberMeChange = {})
     }
 }
