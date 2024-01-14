@@ -38,7 +38,8 @@ fun NavGraphBuilder.loginScreen(
 
         LoginScreen(
             navigateToRegister = navigateToRegister,
-            logIn = { email, password -> viewModel.logIn(email, password) }
+            logIn = { email, password -> viewModel.logIn(email, password) },
+            isLoading = viewModel.isLoading
         )
     }
 }

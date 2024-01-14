@@ -22,6 +22,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.pillreminder.R
@@ -38,7 +40,8 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @Composable
 fun LoginScreen(
     navigateToRegister: () -> Unit,
-    logIn: (email: String, password: String) -> Unit
+    logIn: (email: String, password: String) -> Unit,
+    isLoading: Boolean,
 ) {
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(color = MaterialTheme.colorScheme.background)
@@ -74,6 +77,7 @@ fun LoginScreen(
                     title = stringResource(R.string.email),
                     placeholder = stringResource(R.string.enter_your_email),
                     value = email,
+                    keyboardType = KeyboardType.Email,
                     onValueChange = { email = it }
                 )
                 OuterInput(
@@ -81,6 +85,8 @@ fun LoginScreen(
                     title = stringResource(R.string.password),
                     placeholder = stringResource(R.string.enter_your_password),
                     value = password,
+                    keyboardType = KeyboardType.Password,
+                    visualTransformation = PasswordVisualTransformation('*'),
                     onValueChange = { password = it }
                 )
                 TextCheckbox(
@@ -94,7 +100,7 @@ fun LoginScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(54.dp),
-                    title = stringResource(R.string.log_in),
+                    title = if (isLoading) stringResource(R.string.loading) else stringResource(R.string.log_in),
                     onClick = {
                         if(email.isNotEmpty() && password.isNotEmpty()) {
                             if(isValidEmail(email)) {
@@ -134,6 +140,10 @@ fun LoginScreen(
 @Preview
 fun LoginScreenPreview() {
     PillReminderTheme {
-        LoginScreen(navigateToRegister = {}, logIn = { email, password -> })
+        LoginScreen(
+            navigateToRegister = {},
+            logIn = { email, password -> },
+            isLoading = false
+        )
     }
 }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -14,6 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.pillreminder.ui.theme.CustomColors
 import com.example.pillreminder.ui.theme.Typography
@@ -28,6 +31,9 @@ fun OuterInput(
     titleColor: Color = CustomColors.current.mediumBlack,
     placeholder: String,
     value: String,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    trailingIcon: @Composable () -> Unit = {},
+    keyboardType: KeyboardType = KeyboardType.Text,
     onValueChange: (String) -> Unit
 ) {
     Text(
@@ -58,6 +64,9 @@ fun OuterInput(
             unfocusedIndicatorColor = Color.Transparent,
             placeholderColor = CustomColors.current.lightGray,
         ),
+        visualTransformation = visualTransformation,
+        trailingIcon = trailingIcon,
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         value = value,
         onValueChange = onValueChange,
     )
