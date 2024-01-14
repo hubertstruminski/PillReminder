@@ -17,10 +17,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.pillreminder.R
+import com.example.pillreminder.presentation.widgets.HorizontalDatePicker
 import com.example.pillreminder.ui.theme.CustomColors
+import com.example.pillreminder.ui.theme.PillReminderTheme
 import com.example.pillreminder.ui.theme.Typography
+import kotlin.math.log
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,10 +64,21 @@ fun HomeScreen(logout: () -> Unit) {
                     color = CustomColors.current.mediumBlack
                 )
                 Text(
+                    modifier = Modifier
+                        .padding(top = 3.dp),
                     text = "We will remind you of the medicines you need to take today.",
                     style = Typography.current.regular14,
                     color = CustomColors.current.lightGray
                 )
+                HorizontalDatePicker()
         }
+    }
+}
+
+@Preview
+@Composable
+fun HomeScreenPreview() {
+    PillReminderTheme {
+        HomeScreen(logout = {})
     }
 }
