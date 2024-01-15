@@ -1,5 +1,7 @@
 package com.example.pillreminder.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
@@ -12,6 +14,7 @@ import com.example.pillreminder.presentation.screens.authorization.RegisterScree
 import com.example.pillreminder.presentation.screens.home.HomeScreen
 import com.example.pillreminder.util.Screen
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SetupNavigation(
     navController: NavHostController,
@@ -73,6 +76,7 @@ fun NavGraphBuilder.registerScreen(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun NavGraphBuilder.homeScreen(navigateToLogin: () -> Unit) {
     composable(route = Screen.Home.route) {
         val loginViewModel: LoginViewModel = hiltViewModel()

@@ -18,6 +18,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,7 +34,7 @@ import kotlin.math.abs
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun HorizontalDatePicker() {
+fun HorizontalDatePicker(chosenDate: MutableState<LocalDate>) {
     val pageCount = Int.MAX_VALUE
     val middlePage = pageCount / 2
 
@@ -61,6 +64,8 @@ fun HorizontalDatePicker() {
                     .clickable {
                         val scrollIndex = index - middlePage
                         Log.d("scrollIndex: ", "$scrollIndex")
+
+                        chosenDate.value = createDate(index) ?: LocalDate.now()
                     },
                 shape = RoundedCornerShape(8.dp),
                 shadowElevation = 8.dp
@@ -101,7 +106,9 @@ fun HorizontalDatePicker() {
 @Preview
 @Composable
 fun HorizontalDatePickerPreview() {
+    var chosenDate = remember { mutableStateOf(LocalDate.now()) }
+
     PillReminderTheme {
-        HorizontalDatePicker()
+        HorizontalDatePicker(chosenDate = chosenDate)
     }
 }

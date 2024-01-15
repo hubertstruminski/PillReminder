@@ -1,5 +1,7 @@
 package com.example.pillreminder.presentation.screens.home
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,23 +14,32 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.pillreminder.R
+import com.example.pillreminder.presentation.components.CircleIconButton
 import com.example.pillreminder.presentation.widgets.HorizontalDatePicker
 import com.example.pillreminder.ui.theme.CustomColors
 import com.example.pillreminder.ui.theme.PillReminderTheme
 import com.example.pillreminder.ui.theme.Typography
-import kotlin.math.log
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(logout: () -> Unit) {
+    val formatters: DateTimeFormatter = DateTimeFormatter.ofPattern("DD MMM YYYY");
+    var chosenDate = remember { mutableStateOf(LocalDate.now()) }
+
     Scaffold(
         topBar = {
             Row(
@@ -49,7 +60,6 @@ fun HomeScreen(logout: () -> Unit) {
                         Icon(painter = painterResource(id = R.drawable.logout), contentDescription = "Logout icon")
                     }
                 }
-
             }
         }
     ) { paddingValues ->
@@ -58,23 +68,37 @@ fun HomeScreen(logout: () -> Unit) {
                 .padding(top = paddingValues.calculateTopPadding() + 30.dp)
                 .padding(horizontal = 16.dp)
         ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Text(
                     text = "Hello, Lance Bogrol",
                     style = Typography.current.bold24,
                     color = CustomColors.current.mediumBlack
                 )
-                Text(
-                    modifier = Modifier
-                        .padding(top = 3.dp),
-                    text = "We will remind you of the medicines you need to take today.",
-                    style = Typography.current.regular14,
-                    color = CustomColors.current.lightGray
-                )
-                HorizontalDatePicker()
+                CircleIconButton(color = MaterialTheme.colorScheme.primary)
+            }
+            Text(
+                modifier = Modifier
+                    .padding(top = 3.dp),
+                text = "We will remind you of the medicines you need to take today.",
+                style = Typography.current.regular14,
+                color = CustomColors.current.lightGray
+            )
+            HorizontalDatePicker(chosenDate)
+            Text(
+                text = chosenDate.value.format(formatters),
+                style = Typography.current.bold24,
+                color = CustomColors.current.mediumBlack
+            )
         }
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
 fun HomeScreenPreview() {
